@@ -51,6 +51,14 @@ Requires:       libxxhash = %version
 %description devel
 Headers and other development files for xxHash.
 
+%package doc
+Summary:        Documentation for xxHash
+License:        BSD-2-Clause
+Requires:       %{name} = %{version}
+
+%description doc
+Documentation for xxHash, a non-cryptographic hash algorithm
+
 %prep
 %autosetup -p1 -n %{name}-%{version}/%{name}
 
@@ -85,9 +93,7 @@ export LDFLAGS="%{?build_ldflags}"
 
 %files
 %license LICENSE
-%doc README.md
 %_bindir/xxh*
-%_mandir/man1/xxh*
 
 %files -n libxxhash
 %_libdir/libxxhash.so.*
@@ -96,6 +102,10 @@ export LDFLAGS="%{?build_ldflags}"
 %_includedir/*.h
 %_libdir/pkgconfig/*.pc
 %_libdir/libxxhash.so
+
+%files doc
+%doc README.md
+%_mandir/man1/xxh*
 
 %changelog
 
