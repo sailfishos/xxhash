@@ -23,6 +23,7 @@ Source0:        %{name}-%{version}.tar.xz
 Patch1:         test-tools-do-not-override-cflags.patch
 Patch2:         inline.patch
 Patch3:         disable-memory-optimisation-in-collision-test.patch
+Patch4:         remove-manpages.patch
 BuildRequires:  gcc-c++
 BuildRequires:  time
 
@@ -84,9 +85,7 @@ export LDFLAGS="%{?build_ldflags}"
 
 %files
 %license LICENSE
-%doc README.md
 %_bindir/xxh*
-%_mandir/man1/xxh*
 
 %files -n libxxhash
 %_libdir/libxxhash.so.*
