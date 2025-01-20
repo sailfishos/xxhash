@@ -22,6 +22,7 @@ URL:            https://github.com/sailfishos/xxHash
 Source0:        %{name}-%{version}.tar.xz
 Patch1:         test-tools-do-not-override-cflags.patch
 Patch2:         inline.patch
+Patch3:         disable-memory-optimisation-in-collision-test.patch
 BuildRequires:  gcc-c++
 BuildRequires:  time
 
