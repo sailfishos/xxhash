@@ -23,6 +23,7 @@ Source0:        %{name}-%{version}.tar.xz
 Patch1:         0001-test-tools-do-not-override-cflags.patch
 Patch2:         0002-inline.patch
 Patch3:         0003-disable-memory-optimisation-in-collision-test.patch
+Patch4:         0004-remove-manpages.patch
 BuildRequires:  gcc-c++
 BuildRequires:  time
 
@@ -80,7 +81,6 @@ rm -rf %buildroot%_libdir/libxxhash.a
 %files
 %license cli/COPYING
 %_bindir/xxh*
-%_mandir/man1/xxh*
 
 %files -n libxxhash
 %license LICENSE
