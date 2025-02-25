@@ -12,36 +12,31 @@
 # license that conforms to the Open Source Definition (Version 1.9)
 # published by the Open Source Initiative.
 
-# Please submit bugfixes or comments via https://bugs.opensuse.org/
-#
-
 
 Name:           xxhash
 Version:        0.8.3
 Release:        0
 Summary:        Non-cryptographic hash algorithm
 License:        BSD-2-Clause AND GPL-2.0-only
-Group:          Productivity/Security
-URL:            https://github.com/Cyan4973/xxHash
-Source:         https://github.com/Cyan4973/xxHash/archive/v%version.tar.gz
+URL:            https://github.com/sailfishos/xxHash
+Source0:        %{name}-%{version}.tar.xz
 Patch1:         test-tools-do-not-override-cflags.patch
 Patch2:         inline.patch
 BuildRequires:  gcc-c++
-BuildRequires:  pkg-config
 BuildRequires:  time
-%{?suse_build_hwcaps_libs}
 
 %description
 xxHash is a hash algorithm. It completes the SMHasher test suite which
 evaluates collision, dispersion and randomness qualities of hash functions.
 Hashes are identical on all platforms.
 
-%package -n libxxhash0
+%package -n libxxhash
 Summary:        Non-cryptographic hash algorithm
 License:        BSD-2-Clause
 Group:          System/Libraries
+Provides:       libxxhash0 = %version
 
-%description -n libxxhash0
+%description -n libxxhash
 xxHash is a hash algorithm. It completes the SMHasher test suite which
 evaluates collision, dispersion and randomness qualities of hash functions.
 Hashes are identical on all platforms.
@@ -51,13 +46,13 @@ Summary:        Headers for xxHash, a non-cryptographic hash algorithm
 License:        BSD-2-Clause
 Group:          Development/Libraries/C and C++
 Requires:       %name = %version
-Requires:       libxxhash0 = %version
+Requires:       libxxhash = %version
 
 %description devel
 Headers and other development files for xxHash.
 
 %prep
-%autosetup -p1 -n xxHash-%version
+%autosetup -p1 -n %{name}-%{version}/%{name}
 
 %build
 # ALLOW_AVX just means "we guarantee we policed our %%optflags".
@@ -85,7 +80,8 @@ export LDFLAGS="%{?build_ldflags}"
 # the list is taken from test-all with non-working/irrelevant ones (such as ones that change the toolchain) removed
 %make_build -j1 test test-unicode listL120 trailingWhitespace test-xxh-nnn-sums
 
-%ldconfig_scriptlets -n libxxhash0
+%post -n libxxhash -p /sbin/ldconfig    
+%postun -n libxxhash -p /sbin/ldconfig
 
 %files
 %license LICENSE
@@ -93,7 +89,7 @@ export LDFLAGS="%{?build_ldflags}"
 %_bindir/xxh*
 %_mandir/man1/xxh*
 
-%files -n libxxhash0
+%files -n libxxhash
 %_libdir/libxxhash.so.*
 
 %files devel
