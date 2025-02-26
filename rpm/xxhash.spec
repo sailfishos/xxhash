@@ -23,6 +23,7 @@ Source0:        %{name}-%{version}.tar.xz
 Patch1:         test-tools-do-not-override-cflags.patch
 Patch2:         inline.patch
 Patch3:         disable-memory-optimisation-in-collision-test.patch
+Patch4:         remove-manpages.patch
 BuildRequires:  gcc-c++
 BuildRequires:  time
 
@@ -51,14 +52,6 @@ Requires:       libxxhash = %version
 
 %description devel
 Headers and other development files for xxHash.
-
-%package doc
-Summary:        Documentation for xxHash
-License:        BSD-2-Clause
-Requires:       %{name} = %{version}
-
-%description doc
-Documentation for xxHash, a non-cryptographic hash algorithm
 
 %prep
 %autosetup -p1 -n %{name}-%{version}/%{name}
@@ -103,10 +96,6 @@ export LDFLAGS="%{?build_ldflags}"
 %_includedir/*.h
 %_libdir/pkgconfig/*.pc
 %_libdir/libxxhash.so
-
-%files doc
-%doc README.md
-%_mandir/man1/xxh*
 
 %changelog
 
