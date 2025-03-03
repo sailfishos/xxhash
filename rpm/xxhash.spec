@@ -84,10 +84,11 @@ export LDFLAGS="%{?build_ldflags}"
 %postun -n libxxhash -p /sbin/ldconfig
 
 %files
-%license LICENSE
+%license cli/COPYING
 %_bindir/xxh*
 
 %files -n libxxhash
+%license LICENSE
 %_libdir/libxxhash.so.*
 
 %files devel
