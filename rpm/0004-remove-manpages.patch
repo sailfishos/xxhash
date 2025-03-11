@@ -1,0 +1,97 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Viljanen <matti.viljanen@jolla.com>
+Date: Wed, 26 Feb 2025 18:59:47 +0200
+Subject: [PATCH] Remove manpages
+
+---
+ Makefile | 45 +++------------------------------------------
+ 1 file changed, 3 insertions(+), 42 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 57b28f0b1c381dc85c5117c362453a3f9b53ace4..ed9095feca8fd7cab33178aaf6d118f735127ecd 100644
+--- a/Makefile
++++ b/Makefile
+@@ -442,23 +442,6 @@ namespaceTest:  ## ensure XXH_NAMESPACE redefines all public symbols
+ 	$(CC) xxhash.o xxhash2.o $(XXHSUM_SPLIT_SRCS)  -o xxhsum2  # will fail if one namespace missing (symbol collision)
+ 	$(RM) *.o xxhsum2  # clean
+ 
+-MAN = $(XXHSUM_SRC_DIR)/xxhsum.1
+-MD2ROFF ?= ronn
+-MD2ROFF_FLAGS ?= --roff --warnings --manual="User Commands" --organization="xxhsum $(XXHSUM_VERSION)"
+-$(MAN): $(XXHSUM_SRC_DIR)/xxhsum.1.md xxhash.h
+-	cat $< | $(MD2ROFF) $(MD2ROFF_FLAGS) | $(SED) -n '/^\.\\\".*/!p' > $@
+-
+-.PHONY: man
+-man: $(MAN)  ## generate man page from markdown source
+-
+-.PHONY: clean-man
+-clean-man:
+-	$(RM) xxhsum.1
+-
+-.PHONY: preview-man
+-preview-man: man
+-	man ./xxhsum.1
+-
+ .PHONY: test
+ test: DEBUGFLAGS += -DXXH_DEBUGLEVEL=1
+ test: all namespaceTest check test-xxhsum-c c90test test-tools noxxh3test nostdlibtest
+@@ -556,8 +539,6 @@ INCLUDEDIR  ?= $(includedir)
+ bindir      ?= $(EXEC_PREFIX)/bin
+ BINDIR      ?= $(bindir)
+ datarootdir ?= $(PREFIX)/share
+-mandir      ?= $(datarootdir)/man
+-man1dir     ?= $(mandir)/man1
+ 
+ ifneq (,$(filter $(UNAME),FreeBSD NetBSD DragonFly))
+ PKGCONFIGDIR ?= $(PREFIX)/libdata/pkgconfig
+@@ -565,12 +546,6 @@ else
+ PKGCONFIGDIR ?= $(LIBDIR)/pkgconfig
+ endif
+ 
+-ifneq (,$(filter $(UNAME),OpenBSD FreeBSD NetBSD DragonFly SunOS))
+-MANDIR  ?= $(PREFIX)/man/man1
+-else
+-MANDIR  ?= $(man1dir)
+-endif
+-
+ ifneq (,$(filter $(UNAME),SunOS))
+ INSTALL ?= ginstall
+ else
+@@ -650,22 +625,13 @@ install_xxhsum: xxhsum
+ 	$(Q)ln -sf xxhsum $(DESTDIR)$(BINDIR)/xxh128sum
+ 	$(Q)ln -sf xxhsum $(DESTDIR)$(BINDIR)/xxh3sum
+ 
+-install_man:
+-	@echo Installing man pages
+-	$(Q)$(MAKE_DIR) $(DESTDIR)$(MANDIR)/
+-	$(Q)$(INSTALL_DATA) $(MAN) $(DESTDIR)$(MANDIR)/xxhsum.1
+-	$(Q)ln -sf xxhsum.1 $(DESTDIR)$(MANDIR)/xxh32sum.1
+-	$(Q)ln -sf xxhsum.1 $(DESTDIR)$(MANDIR)/xxh64sum.1
+-	$(Q)ln -sf xxhsum.1 $(DESTDIR)$(MANDIR)/xxh128sum.1
+-	$(Q)ln -sf xxhsum.1 $(DESTDIR)$(MANDIR)/xxh3sum.1
+-
+ .PHONY: install
+-## install libraries, CLI, links and man pages
+-install: install_libxxhash.a install_libxxhash install_libxxhash.includes install_libxxhash.pc install_xxhsum install_man
++## install libraries, CLI and links
++install: install_libxxhash.a install_libxxhash install_libxxhash.includes install_libxxhash.pc install_xxhsum
+ 	@echo xxhash installation completed
+ 
+ .PHONY: uninstall
+-uninstall:  ## uninstall libraries, CLI, links and man page
++uninstall:  ## uninstall libraries, CLI and links
+ 	$(Q)$(RM) $(DESTDIR)$(LIBDIR)/libxxhash.a
+ 	$(Q)$(RM) $(DESTDIR)$(LIBDIR)/libxxhash.$(SHARED_EXT)
+ 	$(Q)$(RM) $(DESTDIR)$(LIBDIR)/libxxhash.$(SHARED_EXT_MAJOR)
+@@ -679,11 +645,6 @@ uninstall:  ## uninstall libraries, CLI, links and man page
+ 	$(Q)$(RM) $(DESTDIR)$(BINDIR)/xxh128sum
+ 	$(Q)$(RM) $(DESTDIR)$(BINDIR)/xxh3sum
+ 	$(Q)$(RM) $(DESTDIR)$(BINDIR)/xxhsum
+-	$(Q)$(RM) $(DESTDIR)$(MANDIR)/xxh32sum.1
+-	$(Q)$(RM) $(DESTDIR)$(MANDIR)/xxh64sum.1
+-	$(Q)$(RM) $(DESTDIR)$(MANDIR)/xxh128sum.1
+-	$(Q)$(RM) $(DESTDIR)$(MANDIR)/xxh3sum.1
+-	$(Q)$(RM) $(DESTDIR)$(MANDIR)/xxhsum.1
+ 	@echo xxhsum successfully uninstalled
+ 
+ endif
