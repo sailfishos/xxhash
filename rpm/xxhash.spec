@@ -25,8 +25,8 @@ Patch1:         0001-test-tools-do-not-override-cflags.patch
 Patch2:         0002-inline.patch
 Patch3:         0003-disable-memory-optimisation-in-collision-test.patch
 Patch4:         0004-remove-manpages.patch
+Patch5:         0005-Don-t-use-time-command-in-tests.patch
 BuildRequires:  gcc-c++
-BuildRequires:  time
 
 %description
 xxHash is a hash algorithm. It completes the SMHasher test suite which
