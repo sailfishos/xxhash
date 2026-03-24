@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Viljanen <matti.viljanen@jolla.com>
+Date: Tue, 24 Mar 2026 17:51:44 +0200
+Subject: [PATCH] Don't use time command in tests
+
+---
+ tests/collisions/Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/tests/collisions/Makefile b/tests/collisions/Makefile
+index eee4b59..bcd0530 100644
+--- a/tests/collisions/Makefile
++++ b/tests/collisions/Makefile
+@@ -63,13 +63,13 @@ check: test
+ test: debug
+ 	@echo ""
+ 	@echo "## $(TESTHASHES) hashes"
+-	@time ./collisionsTest --nbh=$(TESTHASHES)
++	@./collisionsTest --nbh=$(TESTHASHES)
+ 	@echo ""
+ 	@echo "## $(TESTHASHES) hashes with filter"
+-	@time ./collisionsTest --nbh=$(TESTHASHES) --filter
++	@./collisionsTest --nbh=$(TESTHASHES) --filter
+ 	@echo ""
+ 	@echo "## $(TESTHASHES) hashes with 2 threads"
+-	@time ./collisionsTest --nbh=$(TESTHASHES) --threadlog=1
++	@./collisionsTest --nbh=$(TESTHASHES) --threadlog=1
+ 	@echo ""
+ 
+ .PHONY: clean
